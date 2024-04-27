@@ -46,9 +46,13 @@ export default function Home() {
     })
   }
 
+  function AddTag(tag: Tag){
+    setTags(prev => [...prev, tag])
+  }
+
   return (
     <main>
-      <NoteForm onSubmit={onCreateNote} />
+      <NoteForm onSubmit={onCreateNote} onAddTag={AddTag} availableTags={tags} />
     </main>
   );
 }
