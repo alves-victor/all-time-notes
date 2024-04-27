@@ -4,12 +4,15 @@ import CreatableSelect from "react-select/creatable"
 import Animated from "react-select/animated"
 import { FormEvent, useRef, useState } from "react";
 import { NoteData, Tag } from "@/app/page";
+import { v4 as uuidV4 } from "uuid"
 
 type NoteFormProps = {
     onSubmit: (data: NoteData) => void
+    onAddTag: (tag: Tag) => void
+    availableTags: Tag[]
 }
 
-export default function NoteForm({ onSubmit }: NoteFormProps){
+export default function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps){
     const titleRef = useRef<HTMLInputElement>(null)
     const markdownRef = useRef<HTMLTextAreaElement>(null)
     const [selectedTags, setSelectedTags] = useState<Tag[]>([])
@@ -20,7 +23,7 @@ export default function NoteForm({ onSubmit }: NoteFormProps){
         onSubmit({
             title: titleRef.current!.value,
             markdown: markdownRef.current!.value,
-            tags: []
+            tags: selectedTags
         })
     }
 
@@ -41,7 +44,15 @@ export default function NoteForm({ onSubmit }: NoteFormProps){
                     </div>
                     <div>
                         <Label htmlFor="tags" value="Tags" className="text-lg" />
-                        <CreatableSelect id="tags" isMulti components={Animated()} className="w-full" 
+                        <CreatableSelect id="tags" isMulti components={Animated()} className="w-full"
+                            onCreateOption={label => {
+                                const newTag = { id: uuidV4(), label}
+                                onAddTag(newTag)
+                                setSelectedTags(prev => [...prev, newTag])
+                            }}
+                            options={availableTags.map(tag => {
+                                return {label: tag.label, value: tag.id}
+                            })}
                             value={selectedTags.map(tag => {
                                 return {label: tag.label, value: tag.id}
                             })}
