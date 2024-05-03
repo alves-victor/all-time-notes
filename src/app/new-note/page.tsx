@@ -3,7 +3,6 @@
 import NoteForm from "@/components/NoteForm/noteForm"
 
 import { useLocalStorage } from "../../../server/useLocalStorage";
-import { useMemo } from "react";
 import { v4 as uuidV4 } from "uuid"
 
 export type RawNote = {
@@ -32,15 +31,8 @@ label: string
 }
 
 export default function NewNote(){
-
     const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", [])
     const [tags, setTags] = useLocalStorage<Tag[]>("TAGS", [])
-
-    const notesWithTags = useMemo(() => {
-        return notes.map(note => {
-        return {... notes, tags: tags.filter(tag => note.tagIds.includes(tag.id))}
-        })
-    }, [notes, tags])
 
     function onCreateNote({tags, ...data}: NoteData){
         setNotes(prevNotes => {
