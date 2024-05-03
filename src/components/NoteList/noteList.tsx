@@ -1,17 +1,32 @@
 import Link from "next/link";
-import { Button, TextInput, Label } from "flowbite-react";
+import { Button, TextInput, Label, Card } from "flowbite-react";
 import ReactSelect from "react-select";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Tag } from "../../app/new-note/page";
 import Animated from "react-select/animated"
+import NoteCard from "../NoteCard/noteCard";
 
-type NoteListProps = {
-    availableTags: Tag[]
+export type SimplifiedNote = {
+  id: string
+  title: string
+  tags: Tag[]
 }
 
-export default function NoteList({ availableTags } : NoteListProps){
+type NoteListProps = {
+  availableTags: Tag[]
+  notes: SimplifiedNote[]
+}
+
+export default function NoteList({ availableTags, notes } : NoteListProps){
     const [selectedTags, setSelectedTags] = useState<Tag[]>([])
     const [title, setTitle] = useState("")
+
+    const filteredNotes = useMemo(() => {
+      return notes.filter(note => {
+        return (title === "" || note.title.toLowerCase().includes(title.toLowerCase()))
+        && (selectedTags.length === 0 || selectedTags.every(tag => note.tags.some(noteTag => noteTag.id === tag.id)))
+      })
+    }, [title, selectedTags, notes])
 
     return (
         <main className="py-6 px-6 sm:px-32">
@@ -25,7 +40,7 @@ export default function NoteList({ availableTags } : NoteListProps){
             </div>
           </div>
     
-          <form autoComplete="off" className="grid gap-2 grid-flow-row md:grid-flow-col md:grid-cols-2">
+          <form autoComplete="off" className="grid gap-2 grid-flow-row mb-3 md:grid-flow-col md:grid-cols-2">
             <div>
               <Label htmlFor="title" value="Título" className="text-lg" />
               <TextInput type="text" id="title" value={title} style={{
@@ -53,6 +68,14 @@ export default function NoteList({ availableTags } : NoteListProps){
               />
             </div>
           </form>
+
+          <ul className="grid gap-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+                {filteredNotes.map(note => (
+                  <li key={note.id}>
+                    <NoteCard id={note.id} title={note.title} tags={note.tags} />
+                  </li>
+                ))}
+          </ul>
 
         </main>
       )
