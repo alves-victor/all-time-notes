@@ -33,7 +33,7 @@ export default function NoteForm({ onSubmit, onAddTag, availableTags }: NoteForm
     }
 
     return(
-        <main className="lg:w-3/5 md:w-4/5 p-6 flex flex-col m-auto h-screen">
+        <div className="lg:w-3/5 md:w-4/5 p-6 flex flex-col m-auto h-screen">
             <h1 className="text-4xl mb-4">Nova Nota</h1>
 
             <form autoComplete="off" onSubmit={handleSubmit} className="lg:grid-flow-row grid gap-2">
@@ -82,6 +82,6 @@ export default function NoteForm({ onSubmit, onAddTag, availableTags }: NoteForm
                 </div>
 
             </form>
-        </main>
+        </div>
     )
 }
