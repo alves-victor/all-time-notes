@@ -1,0 +1,39 @@
+
+.markdown li{
+    list-style: disc inside;
+    margin-left: 30px;
+}
+
+p > a{
+    color: royalblue;
+    text-decoration: underline;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+h1{
+    font-size: xx-large;
+}
+
+h2{
+    font-size: x-large;
+}
+
+h3{
+    font-size: larger;
+}
+
+h4{
+    font-size: large;
+}
+
+h5{
+    font-size: medium;
+}
+
+h6{
+    font-size: small;
+}
