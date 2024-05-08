@@ -5,7 +5,7 @@ import { Card } from "flowbite-react";
 export default function NoteCard({ id, title, tags }: SimplifiedNote){
     return(
         <div>
-            <Card href={`/${id}`}>
+            <Card href={`/view-note?note-id=${id}`}>
                 <h1 className="text-2xl font-bold tracking-tight text-gray-900 w-full text-center">{title}</h1>
 
                 <ul className="flex justify-center gap-2">
