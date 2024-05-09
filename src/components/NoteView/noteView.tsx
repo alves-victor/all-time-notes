@@ -29,7 +29,10 @@ export default function NoteView({ notes, id }: NoteViewProps){
                 </div>
 
                 <div className="w-full flex flex-row gap-4 sm:justify-end md:max-w-max">
-                    <Link href="#">
+                    <Link href={{
+                        pathname: "/edit-note",
+                        query: {"note-id": note?.id}
+                    }}>
                         <Button>Editar</Button>
                     </Link>
                     <Link href={"#"}>
