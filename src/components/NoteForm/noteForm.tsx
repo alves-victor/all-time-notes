@@ -12,12 +12,12 @@ type NoteFormProps = {
     onSubmit: (data: NoteData) => void
     onAddTag: (tag: Tag) => void
     availableTags: Tag[]
-}
+} & Partial<NoteData>
 
-export default function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps){
+export default function NoteForm({ onSubmit, onAddTag, availableTags, title = "", markdown = "", tags = [] }: NoteFormProps){
     const titleRef = useRef<HTMLInputElement>(null)
     const markdownRef = useRef<HTMLTextAreaElement>(null)
-    const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+    const [selectedTags, setSelectedTags] = useState<Tag[]>(tags)
     const route = useRouter()
 
     function handleSubmit(event: FormEvent){
@@ -41,7 +41,7 @@ export default function NoteForm({ onSubmit, onAddTag, availableTags }: NoteForm
                 <div className="lg:grid lg:grid-flow-col lg:grid-cols-2 lg:gap-2 grid-flow-row">
                     <div>
                         <Label htmlFor="title" value="Título" className="text-lg" />
-                        <TextInput ref={titleRef} type="text" id="title" required style={{
+                        <TextInput ref={titleRef} type="text" id="title" required defaultValue={title} style={{
                             height: "38px",
                             borderRadius: "4px",
                             backgroundColor: "#fff"
@@ -70,7 +70,7 @@ export default function NoteForm({ onSubmit, onAddTag, availableTags }: NoteForm
                     </div>
                 </div>
 
-                <Textarea ref={markdownRef} rows={15} style={{backgroundColor: "#fff"}} required />
+                <Textarea defaultValue={markdown} ref={markdownRef} rows={15} style={{backgroundColor: "#fff"}} required />
 
                 <div className="w-full flex justify-end">
                     <div className="flex">
